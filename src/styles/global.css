@@ -110,7 +110,7 @@ html {
   background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-body);
-  font-size: clamp(17px, 1.8vw, 19px);
+  font-size: clamp(16px, 1.6vw, 18px);
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -154,7 +154,7 @@ a:hover {
 
 .prose h2 {
   font-family: var(--font-mono);
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   font-weight: 500;
   margin-top: 2.5em;
   margin-bottom: -0.5em;
