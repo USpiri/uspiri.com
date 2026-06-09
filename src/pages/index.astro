@@ -2,8 +2,9 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const allPosts = (await getCollection("blog", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 const posts = allPosts.slice(0, 10);
 
 function formatDate(date: Date) {
@@ -35,7 +36,11 @@ function formatDate(date: Date) {
       {
         posts.slice(0, 10).map((post) => (
           <li class="post-item">
-            <a href={`/blog/${post.id}`} class="post-title">
+            <a
+              href={`/blog/${post.id}`}
+              class="post-title"
+              transition:name={`post-title-${post.id}`}
+            >
               {post.data.title}
             </a>
             <time class="post-date" datetime={post.data.pubDate.toISOString()}>
@@ -45,6 +50,9 @@ function formatDate(date: Date) {
         ))
       }
     </ol>
+    <p class="post-count">
+      <span class="label">{posts.length}/{allPosts.length}</span>
+    </p>
   </section>
 </BaseLayout>
 
@@ -62,6 +70,7 @@ function formatDate(date: Date) {
     line-height: 1.1;
     margin-bottom: 1rem;
     letter-spacing: -0.01em;
+    animation: fade-up 400ms ease-out both;
   }
 
   .intro p {
@@ -69,6 +78,7 @@ function formatDate(date: Date) {
     color: var(--muted);
     max-width: 69ch;
     line-height: 1.7;
+    animation: fade-up 400ms ease-out 100ms both;
   }
 
   .intro p a {
@@ -92,6 +102,17 @@ function formatDate(date: Date) {
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out 200ms both;
+  }
+
+  .post-count {
+    width: 100%;
+    text-align: right;
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    animation: fade-up 400ms ease-out 350ms both;
   }
 
   .label {
@@ -125,6 +146,38 @@ function formatDate(date: Date) {
     gap: 1.5rem;
     padding: 0.85rem 0;
     border-bottom: 1px solid var(--border);
+    animation: fade-up 300ms ease-out both;
+  }
+
+  .post-item:nth-child(1) {
+    animation-delay: 260ms;
+  }
+  .post-item:nth-child(2) {
+    animation-delay: 295ms;
+  }
+  .post-item:nth-child(3) {
+    animation-delay: 330ms;
+  }
+  .post-item:nth-child(4) {
+    animation-delay: 365ms;
+  }
+  .post-item:nth-child(5) {
+    animation-delay: 400ms;
+  }
+  .post-item:nth-child(6) {
+    animation-delay: 435ms;
+  }
+  .post-item:nth-child(7) {
+    animation-delay: 470ms;
+  }
+  .post-item:nth-child(8) {
+    animation-delay: 505ms;
+  }
+  .post-item:nth-child(9) {
+    animation-delay: 540ms;
+  }
+  .post-item:nth-child(10) {
+    animation-delay: 575ms;
   }
 
   .post-title {

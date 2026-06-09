@@ -32,7 +32,7 @@ function formatDate(date: Date) {
     </nav>
 
     <header class="post-header">
-      <h1>{post.data.title}</h1>
+      <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
       <div class="post-meta">
         <time datetime={post.data.pubDate.toISOString()}>
           {formatDate(post.data.pubDate)}
@@ -65,6 +65,7 @@ function formatDate(date: Date) {
     margin-bottom: clamp(2rem, 6vw, 3rem);
     font-family: var(--font-mono);
     font-size: 0.75rem;
+    animation: fade-up 350ms ease-out both;
   }
 
   .breadcrumb a {
@@ -89,6 +90,7 @@ function formatDate(date: Date) {
     line-height: 1.1;
     letter-spacing: -0.01em;
     margin-bottom: 1rem;
+    animation: fade-up 350ms ease-out both;
   }
 
   .post-meta {
@@ -96,6 +98,7 @@ function formatDate(date: Date) {
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+    animation: fade-up 350ms ease-out 120ms both;
   }
 
   time {
@@ -115,8 +118,12 @@ function formatDate(date: Date) {
     font-size: 0.68rem;
     color: var(--muted);
     border: 1px solid var(--border);
-    padding: 0.15em 0.55em;
-    border-radius: 2px;
+    padding: 0.05em 0.7em;
+    border-radius: 5px;
     letter-spacing: 0.03em;
+  }
+
+  .prose {
+    animation: fade-up 350ms ease-out 200ms both;
   }
 </style>

@@ -65,14 +65,22 @@ html[data-theme="dark"] {
   color: var(--muted);
   cursor: pointer;
   padding: 0;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, scale 150ms ease-out;
 }
 
 .theme-toggle:hover {
   color: var(--fg);
 }
 
+.theme-toggle:active {
+  scale: 0.96;
+}
+
 .theme-toggle svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
   width: 15px;
   height: 15px;
   stroke: currentColor;
@@ -80,22 +88,23 @@ html[data-theme="dark"] {
   stroke-width: 1.75;
   stroke-linecap: round;
   stroke-linejoin: round;
-  flex-shrink: 0;
+  transition: opacity 0.2s, scale 0.4s, filter 0.2s;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* icon visibility: default = light → show moon */
-.icon-sun { display: none; }
-.icon-moon { display: block; }
+/* Default (light): show moon, hide sun */
+.icon-sun  { opacity: 0; scale: 0.25; filter: blur(4px); }
+.icon-moon { opacity: 1; scale: 1;    filter: blur(0px); }
 
 @media (prefers-color-scheme: dark) {
-  .icon-sun { display: block; }
-  .icon-moon { display: none; }
+  .icon-sun  { opacity: 1; scale: 1;    filter: blur(0px); }
+  .icon-moon { opacity: 0; scale: 0.25; filter: blur(4px); }
 }
 
-html[data-theme="light"] .icon-sun { display: none; }
-html[data-theme="light"] .icon-moon { display: block; }
-html[data-theme="dark"] .icon-sun { display: block; }
-html[data-theme="dark"] .icon-moon { display: none; }
+html[data-theme="light"] .icon-sun  { opacity: 0; scale: 0.25; filter: blur(4px); }
+html[data-theme="light"] .icon-moon { opacity: 1; scale: 1;    filter: blur(0px); }
+html[data-theme="dark"]  .icon-sun  { opacity: 1; scale: 1;    filter: blur(0px); }
+html[data-theme="dark"]  .icon-moon { opacity: 0; scale: 0.25; filter: blur(4px); }
 
 html {
   background-color: var(--bg);
@@ -236,4 +245,47 @@ html[data-theme="dark"] .astro-code span {
   font-style: var(--shiki-dark-font-style) !important;
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* ── Native view transitions ──────────────────────────── */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: ease-out;
+}
+
+/* ── Enter animations ─────────────────────────────────── */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+  }
 }

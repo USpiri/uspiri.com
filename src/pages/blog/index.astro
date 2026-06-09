@@ -37,7 +37,11 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
               .filter((p) => p.data.pubDate.getFullYear() === year)
               .map((post) => (
                 <li class="post-item">
-                  <a href={`/blog/${post.id}`} class="post-title">
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="post-title"
+                    transition:name={`post-title-${post.id}`}
+                  >
                     {post.data.title}
                   </a>
                   <time
@@ -65,6 +69,7 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--muted);
+    animation: fade-up 350ms ease-out both;
   }
 
   .breadcrumb a {
@@ -90,6 +95,7 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
     grid-template-columns: 3rem 1fr;
     gap: 0 1.5rem;
     margin-bottom: 0.5rem;
+    animation: fade-up 350ms ease-out both;
   }
 
   .year-label {
