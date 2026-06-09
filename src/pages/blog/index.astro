@@ -139,4 +139,16 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
     white-space: nowrap;
     flex-shrink: 0;
   }
+
+  @media (max-width: 768px) {
+    .year-group {
+      grid-template-columns: 1fr;
+    }
+
+    .post-item {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 0.3rem;
+    }
+  }
 </style>
