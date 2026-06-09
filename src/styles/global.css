@@ -9,6 +9,7 @@
   --fg: #1a1a18;
   --muted: #9a9690;
   --border: #e2dfd8;
+  --code-bg: #e5e2db;
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3 Variable', 'Source Sans 3', sans-serif;
@@ -24,6 +25,7 @@
     --fg: #dedad3;
     --muted: #68635e;
     --border: #242220;
+    --code-bg: #1e1c1a;
   }
 }
 
@@ -32,6 +34,8 @@ html[data-theme="light"] {
   --fg: #1a1a18;
   --muted: #9a9690;
   --border: #e2dfd8;
+  --code-bg: #f1ede7;
+  --code-block-bg: #f1ede7;
 }
 
 html[data-theme="dark"] {
@@ -39,6 +43,8 @@ html[data-theme="dark"] {
   --fg: #dedad3;
   --muted: #68635e;
   --border: #242220;
+  --code-bg: #1e1c1a;
+  --code-block-bg: #1e1c1a;
 }
 
 /* ── Theme toggle ──────────────────────────────────────── */
@@ -186,22 +192,22 @@ a:hover {
 }
 
 .prose blockquote {
-  border-left: 2px solid var(--border);
+  border-left: 4px solid var(--border);
   padding-left: 1.25em;
-  color: var(--muted);
   font-style: italic;
 }
 
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.85em;
-  background: var(--border);
+  background: var(--code-bg);
   padding: 0.15em 0.35em;
   border-radius: 3px;
 }
 
 .prose pre {
-  background: var(--border);
+  background: var(--code-block-bg) !important;
+  font-size: 0.85em;
   padding: 1.25em;
   border-radius: 6px;
   overflow-x: auto;
@@ -217,4 +223,17 @@ a:hover {
 .prose img {
   max-width: 100%;
   border-radius: 4px;
+}
+
+/* ── Syntax highlighting ───────────────────────────────── */
+/* Light colors come from Shiki inline styles — no CSS needed.
+   Dark colors need CSS because Astro doesn't auto-generate @media rules. */
+
+html[data-theme="dark"] .astro-code,
+html[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
