@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404 — Page not found">
+  <section class="not-found">
+    <div class="numeral">404</div>
+    <div class="divider"></div>
+    <h1 class="heading">Page not found</h1>
+    <p class="message">
+      Whatever you were looking for has wandered off — or perhaps it never
+      existed. These things happen.
+    </p>
+    <a href="/" class="home-link">← Back home</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(4rem, 12vw, 7rem) 0 clamp(2rem, 6vw, 4rem);
+    animation: fade-up 0.5s ease-out both;
+  }
+
+  .numeral {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+    color: var(--muted);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    animation: fade-up 0.4s ease-out 60ms both;
+  }
+
+  .divider {
+    width: 2.5rem;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 1.5rem;
+    animation: fade-up 0.4s ease-out 120ms both;
+  }
+
+  .heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    margin: 0 0 1rem;
+    animation: fade-up 0.4s ease-out 180ms both;
+  }
+
+  .message {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 34ch;
+    margin: 0 0 2.25rem;
+    animation: fade-up 0.4s ease-out 240ms both;
+  }
+
+  .home-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--fg);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: border-color 0.15s ease;
+    animation: fade-up 0.4s ease-out 300ms both;
+  }
+
+  .home-link:hover {
+    border-color: var(--fg);
+  }
+</style>
