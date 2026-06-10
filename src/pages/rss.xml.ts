@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { AUTHOR, SITE_DESCRIPTION } from '../consts';
 
 export async function GET(context: APIContext) {
   const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -8,8 +9,8 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: 'Uriel Spiridione',
-    description: 'Uriel Spiridione — fullstack developer writing about the web.',
+    title: AUTHOR,
+    description: SITE_DESCRIPTION,
     site: context.site!,
     items: posts.map((post) => ({
       title: post.data.title,

@@ -1,6 +1,7 @@
 ---
 import Footer from "../components/Footer.astro";
 import Metadata from "../components/Metadata.astro";
+import { AUTHOR, SITE_DESCRIPTION } from "../consts";
 
 interface Props {
   title: string;
@@ -9,7 +10,7 @@ interface Props {
 
 const {
   title,
-  description = "Uriel Spiridione — fullstack developer writing about the web.",
+  description = SITE_DESCRIPTION,
 } = Astro.props;
 ---
 
@@ -17,7 +18,7 @@ const {
 <html lang="en">
   <head>
     <Metadata title={title} description={description} />
-    <link rel="alternate" type="application/rss+xml" title="Uriel Spiridione" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={AUTHOR} href="/rss.xml" />
     <script is:inline>
       const saved = localStorage.getItem("theme");
       if (saved) document.documentElement.dataset.theme = saved;

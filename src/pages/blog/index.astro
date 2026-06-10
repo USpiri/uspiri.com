@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../consts";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -18,11 +19,11 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
 ---
 
 <BaseLayout
-  title="Writing — Uriel Spiridione"
-  description="All posts by Uriel Spiridione."
+  title={`Writing — ${AUTHOR}`}
+  description={`All posts by ${AUTHOR}.`}
 >
   <nav class="breadcrumb">
-    <a href="/">Uriel Spiridione</a>
+    <a href="/">{AUTHOR}</a>
     <span aria-hidden="true">·</span>
     <span>Writing</span>
   </nav>
