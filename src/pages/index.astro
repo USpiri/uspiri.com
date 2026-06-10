@@ -2,11 +2,16 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { AUTHOR, EMPLOYER } from "../consts";
+import { WORK } from "../data/work";
+import { PROJECTS } from "../data/projects";
 
 const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const posts = allPosts.slice(0, 10);
+
+const projectsHeaderDelay = 180 + WORK.length * 40 + 20;
+const postsHeaderDelay = 180 + WORK.length * 40 + PROJECTS.length * 35 + 60;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -28,8 +33,80 @@ function formatDate(date: Date) {
     </p>
   </section>
 
+  <section class="work">
+    <header class="work-header">
+      <span class="label">Experience</span>
+    </header>
+    <ol class="work-list">
+      {
+        WORK.map((entry, i) => (
+          <li class="work-item" style={`animation-delay: ${220 + i * 40}ms`}>
+            <div class="work-meta">
+              <span class="work-role">
+                {entry.role} ·{" "}
+                {entry.url ? (
+                  <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                    {entry.company}
+                  </a>
+                ) : (
+                  entry.company
+                )}
+              </span>
+              <span class="work-period">{entry.period}</span>
+            </div>
+            <p class="work-desc">{entry.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="projects">
+    <header class="projects-header" style={`animation-delay: ${projectsHeaderDelay}ms`}>
+      <span class="label">Projects</span>
+    </header>
+    <ol class="project-list">
+      {
+        PROJECTS.map((project, i) => (
+          <li class="project-item" style={`animation-delay: ${400 + i * 35}ms`}>
+            <div class="project-meta">
+              {(project.url ?? project.repo) ? (
+                <a
+                  href={project.url ?? project.repo}
+                  class="project-name"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {project.name}
+                </a>
+              ) : (
+                <span class="project-name">{project.name}</span>
+              )}
+              {project.repo && (
+                <a
+                  href={project.repo}
+                  class="project-repo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  github ↗
+                </a>
+              )}
+            </div>
+            <p class="project-desc">{project.description}</p>
+            <div class="project-stack">
+              {project.stack.map((tech) => (
+                <span class="stack-tag">{tech}</span>
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
   <section class="posts">
-    <header class="posts-header">
+    <header class="posts-header" style={`animation-delay: ${postsHeaderDelay}ms`}>
       <span class="label">Writing</span>
       {allPosts.length > 10 && <a href="/blog">All posts →</a>}
     </header>
@@ -103,7 +180,7 @@ function formatDate(date: Date) {
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
-    animation: fade-up 400ms ease-out 200ms both;
+    animation: fade-up 400ms ease-out both;
   }
 
   .post-count {
@@ -201,5 +278,153 @@ function formatDate(date: Date) {
     color: var(--muted);
     white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .work {
+    padding-bottom: 2rem;
+  }
+
+  .work-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out 180ms both;
+  }
+
+  .work-list {
+    list-style: none;
+  }
+
+  .work-item {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 300ms ease-out both;
+  }
+
+  .work-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .work-role {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+
+  .work-role a {
+    color: var(--fg);
+    font-weight: 400;
+    text-decoration-color: var(--border);
+  }
+
+  .work-role a:hover {
+    text-decoration-color: var(--fg);
+  }
+
+  .work-period {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .work-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+  }
+
+  .projects {
+    padding-bottom: 2rem;
+  }
+
+  .projects-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out both;
+  }
+
+  .project-list {
+    list-style: none;
+  }
+
+  .project-item {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 300ms ease-out both;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .project-name {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+
+  a.project-name {
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a.project-name:hover {
+    color: var(--muted);
+  }
+
+  .project-repo {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+  }
+
+  .project-repo:hover {
+    color: var(--fg);
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .stack-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .stack-tag + .stack-tag::before {
+    content: "·";
+    margin: 0 0.4rem;
+    color: var(--border);
   }
 </style>
