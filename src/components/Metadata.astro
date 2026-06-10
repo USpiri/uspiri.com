@@ -31,10 +31,9 @@ const { title, description, image = "/og.png" } = Astro.props;
 
 <!-- Canonical URL & sitemap -->
 <link rel="canonical" href={canonicalURL} />
-<!-- <link rel="sitemap" href="/sitemap-index.xml" /> -->
 
 <!-- Primary Metadata -->
-<title>{`${title} | Uriel Spiridione`}</title>
+<title>{title}</title>
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
