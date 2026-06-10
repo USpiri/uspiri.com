@@ -41,7 +41,11 @@ function formatDate(date: Date) {
           post.data.tags && post.data.tags.length > 0 && (
             <ul class="tags" aria-label="Tags">
               {post.data.tags.map((tag) => (
-                <li class="tag">{tag}</li>
+                <li>
+                  <a class="tag" href={`/blog/tag/${encodeURIComponent(tag)}`}>
+                    {tag}
+                  </a>
+                </li>
               ))}
             </ul>
           )
@@ -53,10 +57,19 @@ function formatDate(date: Date) {
           data-text={post.data.description}
           aria-label="Share this post"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-            <polyline points="16 6 12 2 8 6"/>
-            <line x1="12" y1="2" x2="12" y2="15"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
           </svg>
           <span class="share-label">Share</span>
         </button>
@@ -135,6 +148,12 @@ function formatDate(date: Date) {
     padding: 0.05em 0.7em;
     border-radius: 5px;
     letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .tag:hover {
+    color: var(--fg);
   }
 
   .prose {
@@ -167,14 +186,14 @@ function formatDate(date: Date) {
 </style>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>('.share-btn');
-  btn?.addEventListener('click', async () => {
+  const btn = document.querySelector<HTMLButtonElement>(".share-btn");
+  btn?.addEventListener("click", async () => {
     const { url, title, text } = btn.dataset as Record<string, string>;
     if (navigator.share) {
       try {
         await navigator.share({ title, text, url });
       } catch (e) {
-        if ((e as DOMException).name !== 'AbortError') {
+        if ((e as DOMException).name !== "AbortError") {
           await copyLink(btn, url);
         }
       }
@@ -185,8 +204,10 @@ function formatDate(date: Date) {
 
   async function copyLink(btn: HTMLButtonElement, url: string) {
     await navigator.clipboard.writeText(url);
-    const label = btn.querySelector('.share-label')!;
-    label.textContent = 'Copied!';
-    setTimeout(() => { label.textContent = 'Share'; }, 1500);
+    const label = btn.querySelector(".share-label")!;
+    label.textContent = "Copied!";
+    setTimeout(() => {
+      label.textContent = "Share";
+    }, 1500);
   }
 </script>
