@@ -46,6 +46,20 @@ function formatDate(date: Date) {
             </ul>
           )
         }
+        <button
+          class="share-btn"
+          data-url={Astro.url.href}
+          data-title={post.data.title}
+          data-text={post.data.description}
+          aria-label="Share this post"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <polyline points="16 6 12 2 8 6"/>
+            <line x1="12" y1="2" x2="12" y2="15"/>
+          </svg>
+          <span class="share-label">Share</span>
+        </button>
       </div>
     </header>
 
@@ -126,4 +140,53 @@ function formatDate(date: Date) {
   .prose {
     animation: fade-up 350ms ease-out 200ms both;
   }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s ease;
+  }
+
+  .share-btn:hover {
+    color: var(--fg);
+  }
+
+  .share-btn svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
 </style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.share-btn');
+  btn?.addEventListener('click', async () => {
+    const { url, title, text } = btn.dataset as Record<string, string>;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+      } catch (e) {
+        if ((e as DOMException).name !== 'AbortError') {
+          await copyLink(btn, url);
+        }
+      }
+    } else {
+      await copyLink(btn, url);
+    }
+  });
+
+  async function copyLink(btn: HTMLButtonElement, url: string) {
+    await navigator.clipboard.writeText(url);
+    const label = btn.querySelector('.share-label')!;
+    label.textContent = 'Copied!';
+    setTimeout(() => { label.textContent = 'Share'; }, 1500);
+  }
+</script>
