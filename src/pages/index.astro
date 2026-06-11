@@ -9,10 +9,13 @@ const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 );
 const posts = allPosts.slice(0, 10);
 
-const projects = await getCollection("projects");
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 
 const projectsHeaderDelay = 180 + WORK.length * 40 + 20;
 const postsHeaderDelay = 180 + WORK.length * 40 + projects.length * 35 + 60;
+const aboutHeaderDelay = postsHeaderDelay + Math.min(posts.length, 10) * 35 + 60;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -48,6 +51,7 @@ function formatDate(date: Date) {
                 {entry.url ? (
                   <a href={entry.url} target="_blank" rel="noopener noreferrer">
                     {entry.company}
+                    <span class="ext-arrow">↗</span>
                   </a>
                 ) : (
                   entry.company
@@ -63,7 +67,10 @@ function formatDate(date: Date) {
   </section>
 
   <section class="projects">
-    <header class="projects-header" style={`animation-delay: ${projectsHeaderDelay}ms`}>
+    <header
+      class="projects-header"
+      style={`animation-delay: ${projectsHeaderDelay}ms`}
+    >
       <span class="label">Projects</span>
     </header>
     <ol class="project-list">
@@ -73,6 +80,7 @@ function formatDate(date: Date) {
             <div class="project-meta">
               <a href={`/projects/${project.id}`} class="project-name">
                 {project.data.name}
+                <span class="ext-arrow">↗</span>
               </a>
             </div>
             <p class="project-desc">{project.data.description}</p>
@@ -88,7 +96,10 @@ function formatDate(date: Date) {
   </section>
 
   <section class="posts">
-    <header class="posts-header" style={`animation-delay: ${postsHeaderDelay}ms`}>
+    <header
+      class="posts-header"
+      style={`animation-delay: ${postsHeaderDelay}ms`}
+    >
       <span class="label">Writing</span>
       {allPosts.length > 10 && <a href="/blog">All posts →</a>}
     </header>
@@ -113,6 +124,38 @@ function formatDate(date: Date) {
     <p class="post-count">
       <span class="label">{posts.length}/{allPosts.length}</span>
     </p>
+  </section>
+
+  <section class="about">
+    <header
+      class="about-header"
+      style={`animation-delay: ${aboutHeaderDelay}ms`}
+    >
+      <span class="label">About</span>
+    </header>
+    <div class="about-body" style={`animation-delay: ${aboutHeaderDelay + 40}ms`}>
+      <div class="about-photo">
+        <img src="/avatar.jpg" alt={AUTHOR} />
+      </div>
+      <div class="about-text">
+        <p>
+          I grew up in Argentina, where I taught myself to build things for the
+          web — starting with small sites and eventually going deep into the
+          front-end for five years before the rest of the stack started pulling
+          me in too.
+        </p>
+        <p>
+          These days I work across the full stack at Honra.io. I care about the
+          craft: clean code, fast interfaces, and the kind of details most people
+          scroll past without noticing.
+        </p>
+        <p>
+          Outside of code I'm usually reading, cycling, or breaking something
+          just to see how it works. This site is where I keep track of what I
+          build and what I learn along the way.
+        </p>
+      </div>
+    </div>
   </section>
 </BaseLayout>
 
@@ -322,6 +365,10 @@ function formatDate(date: Date) {
     color: var(--muted);
     margin-top: 0.35rem;
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .projects {
@@ -375,6 +422,10 @@ function formatDate(date: Date) {
     color: var(--muted);
     margin-top: 0.35rem;
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .project-stack {
@@ -394,5 +445,68 @@ function formatDate(date: Date) {
     content: "·";
     margin: 0 0.4rem;
     color: var(--border);
+  }
+
+  .ext-arrow {
+    font-size: 0.7em;
+  }
+
+  .about {
+    padding-bottom: 2rem;
+  }
+
+  .about-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out both;
+  }
+
+  .about-body {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 2rem;
+    align-items: start;
+    animation: fade-up 400ms ease-out both;
+  }
+
+  .about-photo {
+    width: 150px;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    background-color: var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .about-text p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 420px) {
+    .about-body {
+      grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+      width: 110px;
+    }
   }
 </style>

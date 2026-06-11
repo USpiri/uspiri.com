@@ -1,5 +1,6 @@
 ---
 name: "Indiario"
+order: 1
 description: "Live news publishing platform built for a real editorial team — CMS backend, public web frontend, and a mobile app with push notifications."
 image: "../../assets/projects/indiario.png"
 stack: ["Next.js", "Payload CMS", "React Native", "Expo"]

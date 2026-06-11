@@ -1,5 +1,6 @@
 ---
 name: "Maps Scraper"
+order: 5
 description: "Chrome extension that extracts structured business data from Google Maps search results and exports it as CSV or JSON for market research and lead generation."
 image: "../../assets/projects/map-scraper.png"
 stack: ["React", "TypeScript", "Vite"]

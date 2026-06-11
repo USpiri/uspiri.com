@@ -1,5 +1,6 @@
 ---
 name: "Raices Nativas"
+order: 4
 description: "Angular web app built with Biology students from the UNC to promote awareness and care of native tree species in Córdoba."
 stack: ["Angular", "Material", "Bootstrap"]
 url: "https://raices-nativas.vercel.app"

@@ -1,5 +1,6 @@
 ---
 name: "Things Shop"
+order: 3
 description: "Full-stack eCommerce platform covering product browsing, cart management, PayPal checkout, and a separate admin dashboard for inventory management."
 image: "../../assets/projects/things-shop.png"
 stack: ["Next.js", "Prisma", "Cloudinary", "PayPal", "Auth.js"]

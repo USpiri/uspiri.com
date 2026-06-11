@@ -1,5 +1,6 @@
 ---
 name: "Nemos"
+order: 2
 description: "Local-first desktop note-taking app built with Tauri — no cloud, no account, no subscription."
 image: "../../assets/projects/nemos-01.png"
 stack: ["React", "Tauri", "TipTap", "Zustand", "TanStack Router"]
