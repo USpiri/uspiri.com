@@ -1,14 +1,9 @@
 ---
 title: Data strcutures
 description: "Las estructuas de datos son una forma particular de organizar datos dentro de una computadora para que estos puedan ser utilizados de forma eficiente."
-tags:
-  - data
-date: 2024-06-08
+tags: ["data"]
+pubDate: 2024-06-08
 ---
-
-import Image from "@components/Image.astro";
-
-# Data structures
 
 Una estructura de datos (data strcuture) es una forma particular de organizar datos dentro de una computadora para que estos puedan ser utilizados de forma eficiente.
 

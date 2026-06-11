@@ -1,13 +1,9 @@
 ---
-title: '"Copy code to clipboard" en Astro'
+title: Agregando un botón "Copy code to clipboard" en Astro
 description: '"Copy code" es funcionalidad útil a la hora de pensar en el desarrollo de un blog de programación, aprende a hacerlo y utilizalo en tus proyectos Astro.'
-date: 2023-10-21
-tags:
-  - typescript
-  - astro
+pubDate: 2023-10-21
+tags: ["astro", "typescript", "web-development"]
 ---
-
-# "Copy code to clipboard" en Astro
 
 A la hora de buscar documentación, ejemplos o artículos, muchas plataformas ofrecen la posibilidad de copiar el contenido de un bloque de código, mejorando así la experiencia para el desarrollador. Este pequeño detalle puede marcar la diferencia en la experiencia del desarrollador y, por lo tanto, es razonable desear incorporar esta funcionalidad en un blog.
 

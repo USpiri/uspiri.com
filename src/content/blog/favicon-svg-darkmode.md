@@ -1,14 +1,9 @@
 ---
 title: "Darkmode en favicons SVG"
 description: 'Desde 2020 la mayoría de los navegadores da soporte para favicons SVG. Veamos cómo hacer que estos cambien de color según el "theme".'
-date: 2024-08-20
-tags:
-  - css
+pubDate: 2024-08-20
+tags: ["web-development"]
 ---
-
-import Image from "@components/Image.astro";
-
-# Dark mode en favicons SVG
 
 Desde el 2020, la mayoría de los navegadores han comenzado a dar soporte a favicons en formato `.svg`, actualmente comprende [algo más del 76%](https://caniuse.com/link-icon-svg) de los navegadores.
 
