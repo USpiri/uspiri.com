@@ -1,0 +1,210 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../consts";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const isSvg = project.data.image.src.endsWith(".svg");
+---
+
+<BaseLayout
+  title={`${project.data.name} — ${AUTHOR}`}
+  description={project.data.description}
+>
+  <article>
+    <nav class="breadcrumb">
+      <a href="/">← Home</a>
+    </nav>
+
+    <header class="project-header">
+      <h1>{project.data.name}</h1>
+      <p class="project-desc">{project.data.description}</p>
+    </header>
+
+    <div class="project-image">
+      {isSvg ? (
+        <img
+          src={project.data.image.src}
+          alt={`${project.data.name} preview`}
+          width={1200}
+          height={630}
+        />
+      ) : (
+        <Image
+          src={project.data.image}
+          alt={`${project.data.name} preview`}
+          width={1200}
+          height={630}
+        />
+      )}
+    </div>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="project-meta">
+      <div class="project-stack">
+        {project.data.stack.map((tech) => (
+          <span class="stack-tag">{tech}</span>
+        ))}
+      </div>
+
+      {
+        (project.data.url || project.data.repo) && (
+          <div class="project-links">
+            {project.data.url && (
+              <a
+                href={project.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-link"
+              >
+                Live ↗
+              </a>
+            )}
+            {project.data.repo && (
+              <a
+                href={project.data.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-link"
+              >
+                Repository ↗
+              </a>
+            )}
+          </div>
+        )
+      }
+
+      {
+        project.data.blogPost && (
+          <div class="blog-post-link">
+            <a href={project.data.blogPost} class="project-link">
+              Read more →
+            </a>
+          </div>
+        )
+      }
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  article {
+    padding-top: clamp(2rem, 6vw, 3.5rem);
+    padding-bottom: 2rem;
+  }
+
+  .breadcrumb {
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    animation: fade-up 350ms ease-out both;
+  }
+
+  .breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--fg);
+  }
+
+  .project-header {
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 2.8rem);
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    animation: fade-up 350ms ease-out both;
+  }
+
+  .project-desc {
+    font-size: 0.925rem;
+    color: var(--muted);
+    line-height: 1.7;
+    animation: fade-up 350ms ease-out 80ms both;
+  }
+
+  .project-image {
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    animation: fade-up 350ms ease-out 160ms both;
+  }
+
+  .project-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .prose {
+    animation: fade-up 350ms ease-out 200ms both;
+  }
+
+  .project-meta {
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    animation: fade-up 350ms ease-out 280ms both;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .stack-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .stack-tag + .stack-tag::before {
+    content: "·";
+    margin: 0 0.4rem;
+    color: var(--border);
+  }
+
+  .project-links,
+  .blog-post-link {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .project-link:hover {
+    color: var(--fg);
+  }
+</style>
