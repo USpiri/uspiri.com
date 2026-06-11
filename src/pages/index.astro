@@ -71,28 +71,9 @@ function formatDate(date: Date) {
         projects.map((project, i) => (
           <li class="project-item" style={`animation-delay: ${400 + i * 35}ms`}>
             <div class="project-meta">
-              {(project.data.url ?? project.data.repo) ? (
-                <a
-                  href={project.data.url ?? project.data.repo}
-                  class="project-name"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {project.data.name}
-                </a>
-              ) : (
-                <span class="project-name">{project.data.name}</span>
-              )}
-              {project.data.repo && (
-                <a
-                  href={project.data.repo}
-                  class="project-repo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  github ↗
-                </a>
-              )}
+              <a href={`/projects/${project.id}`} class="project-name">
+                {project.data.name}
+              </a>
             </div>
             <p class="project-desc">{project.data.description}</p>
             <div class="project-stack">
@@ -387,20 +368,6 @@ function formatDate(date: Date) {
 
   a.project-name:hover {
     color: var(--muted);
-  }
-
-  .project-repo {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-decoration: none;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: color 0.15s ease;
-  }
-
-  .project-repo:hover {
-    color: var(--fg);
   }
 
   .project-desc {
