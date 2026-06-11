@@ -1,6 +1,6 @@
 ---
 name: "Maps Scraper"
-description: "Chrome extension that extracts structured data from Google Maps search results — name, address, rating, phone, GPS coordinates, category, and more. Exports as CSV or JSON for market research and lead generation."
+description: "Chrome extension that extracts structured business data from Google Maps search results and exports it as CSV or JSON for market research and lead generation."
 image: "../../assets/projects/map-scraper.png"
 stack: ["React", "TypeScript", "Vite"]
 repo: "https://github.com/USpiri/maps-scrapper-extension"
@@ -15,7 +15,3 @@ Each result includes: name, address, category, average rating, review count, ope
 ## Export
 
 Results export as `.csv` (for spreadsheets) or `.json` (for programmatic use). The format is straightforward and column-consistent, so it drops into any analysis workflow without transformation.
-
-## Build
-
-The extension is a React + Vite app packaged as an unpacked Chrome extension. The content script interacts with the Maps DOM to extract data; the popup provides the UI and export controls.
