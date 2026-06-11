@@ -31,12 +31,14 @@ const { Content } = await render(project);
       <p class="project-desc">{project.data.description}</p>
     </header>
 
-    <div class="project-image">
-      <Image
-        src={project.data.image}
-        alt={`${project.data.name} preview`}
-      />
-    </div>
+    {project.data.image && (
+      <div class="project-image">
+        <Image
+          src={project.data.image}
+          alt={`${project.data.name} preview`}
+        />
+      </div>
+    )}
 
     <div class="prose">
       <Content />
