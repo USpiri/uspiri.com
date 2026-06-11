@@ -3,15 +3,16 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { AUTHOR, EMPLOYER } from "../consts";
 import { WORK } from "../data/work";
-import { PROJECTS } from "../data/projects";
 
 const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const posts = allPosts.slice(0, 10);
 
+const projects = await getCollection("projects");
+
 const projectsHeaderDelay = 180 + WORK.length * 40 + 20;
-const postsHeaderDelay = 180 + WORK.length * 40 + PROJECTS.length * 35 + 60;
+const postsHeaderDelay = 180 + WORK.length * 40 + projects.length * 35 + 60;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -67,24 +68,24 @@ function formatDate(date: Date) {
     </header>
     <ol class="project-list">
       {
-        PROJECTS.map((project, i) => (
+        projects.map((project, i) => (
           <li class="project-item" style={`animation-delay: ${400 + i * 35}ms`}>
             <div class="project-meta">
-              {(project.url ?? project.repo) ? (
+              {(project.data.url ?? project.data.repo) ? (
                 <a
-                  href={project.url ?? project.repo}
+                  href={project.data.url ?? project.data.repo}
                   class="project-name"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {project.name}
+                  {project.data.name}
                 </a>
               ) : (
-                <span class="project-name">{project.name}</span>
+                <span class="project-name">{project.data.name}</span>
               )}
-              {project.repo && (
+              {project.data.repo && (
                 <a
-                  href={project.repo}
+                  href={project.data.repo}
                   class="project-repo"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -93,9 +94,9 @@ function formatDate(date: Date) {
                 </a>
               )}
             </div>
-            <p class="project-desc">{project.description}</p>
+            <p class="project-desc">{project.data.description}</p>
             <div class="project-stack">
-              {project.stack.map((tech) => (
+              {project.data.stack.map((tech) => (
                 <span class="stack-tag">{tech}</span>
               ))}
             </div>
