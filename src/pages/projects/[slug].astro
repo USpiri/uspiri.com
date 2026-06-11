@@ -15,7 +15,6 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 
-const isSvg = project.data.image.src.endsWith(".svg");
 ---
 
 <BaseLayout
@@ -33,21 +32,12 @@ const isSvg = project.data.image.src.endsWith(".svg");
     </header>
 
     <div class="project-image">
-      {isSvg ? (
-        <img
-          src={project.data.image.src}
-          alt={`${project.data.name} preview`}
-          width={1200}
-          height={630}
-        />
-      ) : (
-        <Image
-          src={project.data.image}
-          alt={`${project.data.name} preview`}
-          width={1200}
-          height={630}
-        />
-      )}
+      <Image
+        src={project.data.image}
+        alt={`${project.data.name} preview`}
+        width={1200}
+        height={630}
+      />
     </div>
 
     <div class="prose">
