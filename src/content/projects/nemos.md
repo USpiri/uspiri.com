@@ -5,6 +5,7 @@ description: "Local-first desktop note-taking app built with Tauri — no cloud,
 image: "../../assets/projects/nemos-01.png"
 stack: ["React", "Tauri", "TipTap", "Zustand", "TanStack Router"]
 repo: "https://github.com/USpiri/nemos"
+url: "https://github.com/USpiri/nemos"
 blogPost: "/blog/nemos-v1"
 ---
 
