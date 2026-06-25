@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { AUTHOR, EMPLOYER } from "../consts";
 import { WORK } from "../data/work";
+import { Image } from "astro:assets";
 
 const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -15,7 +16,8 @@ const projects = (await getCollection("projects")).sort(
 
 const projectsHeaderDelay = 180 + WORK.length * 40 + 20;
 const postsHeaderDelay = 180 + WORK.length * 40 + projects.length * 35 + 60;
-const aboutHeaderDelay = postsHeaderDelay + Math.min(posts.length, 10) * 35 + 60;
+const aboutHeaderDelay =
+  postsHeaderDelay + Math.min(posts.length, 10) * 35 + 60;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -133,26 +135,29 @@ function formatDate(date: Date) {
     >
       <span class="label">About</span>
     </header>
-    <div class="about-body" style={`animation-delay: ${aboutHeaderDelay + 40}ms`}>
+    <div
+      class="about-body"
+      style={`animation-delay: ${aboutHeaderDelay + 40}ms`}
+    >
       <div class="about-photo">
-        <img src="/avatar.jpg" alt={AUTHOR} />
+        <Image src="/me.webp" alt={AUTHOR} width={1217} height={913} />
       </div>
       <div class="about-text">
         <p>
-          I grew up in Argentina, where I taught myself to build things for the
-          web — starting with small sites and eventually going deep into the
-          front-end for five years before the rest of the stack started pulling
-          me in too.
+          Raised in Argentina. I got into programming trying to build a POS
+          system for my grandfather. Nothing available fit, so I started
+          learning how to make it myself. He closed the shop before it was
+          finished, but by then software had already become one of my tools.
         </p>
         <p>
-          These days I work across the full stack at Honra.io. I care about the
-          craft: clean code, fast interfaces, and the kind of details most people
-          scroll past without noticing.
+          Today I work at Honra.io — mobile apps, backends, frontend,
+          migrations. Lately a lot of it has shifted toward AI and agents, and
+          I'm excited about where that's heading.
         </p>
         <p>
-          Outside of code I'm usually reading, cycling, or breaking something
-          just to see how it works. This site is where I keep track of what I
-          build and what I learn along the way.
+          I like understanding how things work. Sometimes that means software,
+          sometimes motorcycle electronics, and sometimes a sidebar that should
+          have been simple but ended up being rebuilt from scratch.
         </p>
       </div>
     </div>
@@ -474,6 +479,7 @@ function formatDate(date: Date) {
 
   .about-photo {
     width: 150px;
+    height: 100%;
     aspect-ratio: 1 / 1;
     border-radius: 4px;
     background-color: var(--border);
@@ -500,13 +506,13 @@ function formatDate(date: Date) {
     line-height: 1.7;
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 512px) {
     .about-body {
       grid-template-columns: 1fr;
     }
 
     .about-photo {
-      width: 110px;
+      width: 200px;
     }
   }
 </style>
