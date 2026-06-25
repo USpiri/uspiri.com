@@ -84,6 +84,16 @@ function formatDate(date: Date) {
                 {project.data.name}
                 <span class="ext-arrow">↗</span>
               </a>
+              {project.data.url && (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-live"
+                >
+                  Live ↗
+                </a>
+              )}
             </div>
             <p class="project-desc">{project.data.description}</p>
             <div class="project-stack">
@@ -420,6 +430,20 @@ function formatDate(date: Date) {
 
   a.project-name:hover {
     color: var(--muted);
+  }
+
+  .project-live {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+  }
+
+  .project-live:hover {
+    color: var(--fg);
   }
 
   .project-desc {
