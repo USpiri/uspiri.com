@@ -9,6 +9,7 @@ interface Props {
   image?: string;
   ogType?: "website" | "article";
   pubDate?: Date;
+  tags?: string[];
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   image,
   ogType = "website",
   pubDate,
+  tags,
 } = Astro.props;
 ---
 
@@ -29,6 +31,7 @@ const {
       image={image}
       ogType={ogType}
       pubDate={pubDate}
+      tags={tags}
     />
     <link
       rel="alternate"

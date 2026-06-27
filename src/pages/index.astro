@@ -172,12 +172,7 @@ function formatDate(date: Date) {
       style={`animation-delay: ${aboutHeaderDelay + 40}ms`}
     >
       <div class="about-photo">
-        <Image
-          src={mePhoto}
-          alt={AUTHOR}
-          loading="eager"
-          fetchpriority="high"
-        />
+        <Image src={mePhoto} alt={AUTHOR} />
       </div>
       <div class="about-text">
         <p>
