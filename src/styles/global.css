@@ -162,7 +162,7 @@ a:hover {
   color: var(--fg);
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   top: 1rem;
 }
 
