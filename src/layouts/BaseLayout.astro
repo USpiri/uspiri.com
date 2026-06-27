@@ -46,12 +46,7 @@ const {
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
-    <button
-      id="theme-toggle"
-      class="theme-toggle"
-      aria-label="Toggle theme"
-      title="Toggle theme"
-    >
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="4"></circle>
         <line x1="12" y1="2" x2="12" y2="4"></line>
@@ -73,17 +68,32 @@ const {
     <Footer />
     <script>
       const btn = document.getElementById("theme-toggle");
-      btn?.addEventListener("click", () => {
-        const current =
+
+      function getTheme() {
+        return (
           document.documentElement.dataset.theme ??
           (window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
-            : "light");
-        const next = current === "dark" ? "light" : "dark";
+            : "light")
+        );
+      }
+
+      function updateToggle(theme: string) {
+        btn?.setAttribute(
+          "aria-label",
+          theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
+        );
+      }
+
+      updateToggle(getTheme());
+
+      btn?.addEventListener("click", () => {
+        const next = getTheme() === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = next;
         try {
           localStorage.setItem("theme", next);
         } catch {}
+        updateToggle(next);
       });
     </script>
   </body>
