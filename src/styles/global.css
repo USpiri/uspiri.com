@@ -141,6 +141,31 @@ a:hover {
   text-decoration-color: var(--fg);
 }
 
+:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: 3px;
+  border-radius: 0.5px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  z-index: 100;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
 /* ── Prose (blog post body) ──────────────────────────── */
 
 .prose {
@@ -245,6 +270,17 @@ html[data-theme="dark"] .astro-code span {
   font-style: var(--shiki-dark-font-style) !important;
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
 
 /* ── Native view transitions ──────────────────────────── */
