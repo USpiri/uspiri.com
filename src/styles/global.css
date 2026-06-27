@@ -10,6 +10,7 @@
   --muted: #757169;
   --border: #e2dfd8;
   --code-bg: #e5e2db;
+  --code-block-bg: #f1ede7;
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3 Variable', 'Source Sans 3', sans-serif;
@@ -26,6 +27,7 @@
     --muted: #908b84;
     --border: #242220;
     --code-bg: #1e1c1a;
+    --code-block-bg: #1e1c1a;
   }
 }
 
@@ -122,7 +124,7 @@ html {
   background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.6vw, 18px);
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -14,7 +14,6 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-
 ---
 
 <BaseLayout
@@ -22,8 +21,8 @@ const { Content } = await render(project);
   description={project.data.description}
 >
   <article>
-    <nav class="breadcrumb">
-      <a href="/">← Home</a>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/"><span aria-hidden="true">←</span> Home</a>
     </nav>
 
     <header class="project-header">
@@ -31,14 +30,16 @@ const { Content } = await render(project);
       <p class="project-desc">{project.data.description}</p>
     </header>
 
-    {project.data.image && (
-      <div class="project-image">
-        <Image
-          src={project.data.image}
-          alt={`${project.data.name} preview`}
-        />
-      </div>
-    )}
+    {
+      project.data.image && (
+        <div class="project-image">
+          <Image
+            src={project.data.image}
+            alt={`${project.data.name} preview`}
+          />
+        </div>
+      )
+    }
 
     <div class="prose">
       <Content />
@@ -46,9 +47,11 @@ const { Content } = await render(project);
 
     <footer class="project-meta">
       <div class="project-stack">
-        {project.data.stack.map((tech) => (
-          <span class="stack-tag">{tech}</span>
-        ))}
+        {
+          project.data.stack.map((tech) => (
+            <span class="stack-tag">{tech}</span>
+          ))
+        }
       </div>
 
       {
