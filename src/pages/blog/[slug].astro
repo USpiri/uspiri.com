@@ -38,7 +38,9 @@ function formatDate(date: Date) {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: post.data.title,
+      image: `${SITE_URL}/og/${post.id}.png`,
       datePublished: post.data.pubDate.toISOString(),
+      dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
       author: {
         "@type": "Person",
         name: AUTHOR,
@@ -48,7 +50,7 @@ function formatDate(date: Date) {
     })}
   />
   <article>
-    <nav class="breadcrumb">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="/blog">← Writing</a>
     </nav>
 
