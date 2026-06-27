@@ -22,13 +22,14 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
   title={`Writing — ${AUTHOR}`}
   description={`All writing by ${AUTHOR} — web development, frontend engineering, software, and the occasional rabbit hole.`}
 >
-  <nav class="breadcrumb">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">{AUTHOR}</a>
     <span aria-hidden="true">·</span>
     <span>Writing</span>
   </nav>
 
   <section class="posts">
+    <h1 class="sr-only">Writing</h1>
     {
       years.map((year) => (
         <div class="year-group">

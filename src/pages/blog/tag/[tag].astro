@@ -30,8 +30,11 @@ function formatDate(date: Date) {
 const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
 ---
 
-<BaseLayout title={`${tag} — ${AUTHOR}`} description={`Posts tagged "${tag}".`}>
-  <nav class="breadcrumb">
+<BaseLayout
+  title={`${tag} — ${AUTHOR}`}
+  description={`All posts about ${tag} by ${AUTHOR} — web development, frontend engineering, and software.`}
+>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">{AUTHOR}</a>
     <span aria-hidden="true">·</span>
     <a href="/blog">Writing</a>
@@ -40,6 +43,7 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
   </nav>
 
   <section class="posts">
+    <h1 class="sr-only">{tag}</h1>
     {
       years.map((year) => (
         <div class="year-group">
