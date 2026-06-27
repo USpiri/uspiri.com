@@ -1,3 +1,5 @@
+import { EMPLOYER } from "../consts";
+
 export interface WorkEntry {
   role: string;
   company: string;
@@ -9,8 +11,8 @@ export interface WorkEntry {
 export const WORK: WorkEntry[] = [
   {
     role: "Fullstack Developer",
-    company: "Honra.io",
-    url: "https://honra.io",
+    company: EMPLOYER.name,
+    url: EMPLOYER.url,
     period: "2025–present",
     description: "Building for the web with an AI-integrated workflow, fullstack development.",
   },
