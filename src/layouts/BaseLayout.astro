@@ -6,6 +6,7 @@ import { AUTHOR, SITE_DESCRIPTION } from "../consts";
 interface Props {
   title: string;
   description?: string;
+  image?: string;
   ogType?: "website" | "article";
   pubDate?: Date;
 }
@@ -13,6 +14,7 @@ interface Props {
 const {
   title,
   description = SITE_DESCRIPTION,
+  image,
   ogType = "website",
   pubDate,
 } = Astro.props;
@@ -24,6 +26,7 @@ const {
     <Metadata
       title={title}
       description={description}
+      image={image}
       ogType={ogType}
       pubDate={pubDate}
     />

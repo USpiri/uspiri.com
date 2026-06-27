@@ -26,6 +26,7 @@ function formatDate(date: Date) {
 <BaseLayout
   title={`${post.data.title} — ${AUTHOR}`}
   description={post.data.description}
+  image={`/og/${post.id}.png`}
   ogType="article"
   pubDate={post.data.pubDate}
 >
