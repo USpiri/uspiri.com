@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
-import { AUTHOR, SITE_DESCRIPTION } from '../consts';
+import { AUTHOR, EMAIL, SITE_DESCRIPTION } from '../consts';
 
 export async function GET(context: APIContext) {
   const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -17,6 +17,7 @@ export async function GET(context: APIContext) {
       description: post.data.description,
       pubDate: post.data.pubDate,
       link: `/blog/${post.id}/`,
+      customData: `<author>${EMAIL} (${AUTHOR})</author>`,
     })),
   });
 }
