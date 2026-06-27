@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { AUTHOR, EMPLOYER } from "../consts";
+import { AUTHOR, EMPLOYER, SITE_URL, SOCIAL } from "../consts";
 import { WORK } from "../data/work";
 import { Image } from "astro:assets";
 import mePhoto from "../assets/me.webp";
@@ -30,6 +30,27 @@ function formatDate(date: Date) {
 ---
 
 <BaseLayout title={AUTHOR}>
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: AUTHOR,
+        url: SITE_URL,
+        sameAs: [SOCIAL.home, SOCIAL.github, SOCIAL.twitter, SOCIAL.linkedin],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: AUTHOR,
+        url: SITE_URL,
+        author: { "@type": "Person", name: AUTHOR },
+      },
+    ])}
+  />
   <section class="intro">
     <h1>{AUTHOR}</h1>
     <p>
@@ -118,7 +139,7 @@ function formatDate(date: Date) {
     </header>
     <ol class="post-list">
       {
-        posts.slice(0, 10).map((post) => (
+        posts.map((post) => (
           <li class="post-item">
             <a
               href={`/blog/${post.id}`}
@@ -151,7 +172,12 @@ function formatDate(date: Date) {
       style={`animation-delay: ${aboutHeaderDelay + 40}ms`}
     >
       <div class="about-photo">
-        <Image src={mePhoto} alt={AUTHOR} loading="eager" fetchpriority="high" />
+        <Image
+          src={mePhoto}
+          alt={AUTHOR}
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
       <div class="about-text">
         <p>
@@ -272,16 +298,36 @@ function formatDate(date: Date) {
     animation: fade-up 300ms ease-out both;
   }
 
-  .post-item:nth-child(1)  { animation-delay: 120ms; }
-  .post-item:nth-child(2)  { animation-delay: 140ms; }
-  .post-item:nth-child(3)  { animation-delay: 160ms; }
-  .post-item:nth-child(4)  { animation-delay: 180ms; }
-  .post-item:nth-child(5)  { animation-delay: 200ms; }
-  .post-item:nth-child(6)  { animation-delay: 220ms; }
-  .post-item:nth-child(7)  { animation-delay: 240ms; }
-  .post-item:nth-child(8)  { animation-delay: 260ms; }
-  .post-item:nth-child(9)  { animation-delay: 280ms; }
-  .post-item:nth-child(10) { animation-delay: 300ms; }
+  .post-item:nth-child(1) {
+    animation-delay: 120ms;
+  }
+  .post-item:nth-child(2) {
+    animation-delay: 140ms;
+  }
+  .post-item:nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .post-item:nth-child(4) {
+    animation-delay: 180ms;
+  }
+  .post-item:nth-child(5) {
+    animation-delay: 200ms;
+  }
+  .post-item:nth-child(6) {
+    animation-delay: 220ms;
+  }
+  .post-item:nth-child(7) {
+    animation-delay: 240ms;
+  }
+  .post-item:nth-child(8) {
+    animation-delay: 260ms;
+  }
+  .post-item:nth-child(9) {
+    animation-delay: 280ms;
+  }
+  .post-item:nth-child(10) {
+    animation-delay: 300ms;
+  }
 
   .post-title {
     font-family: var(--font-mono);
