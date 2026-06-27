@@ -9,6 +9,7 @@ import "@fontsource-variable/cascadia-code/wght.css";
 import "@fontsource-variable/source-sans-3/wght-italic.css";
 import cormorantGaramondUrl from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-italic.woff2?url";
 import sourceSans3Url from "@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-italic.woff2?url";
+import cascadiaCodeUrl from "@fontsource-variable/cascadia-code/files/cascadia-code-latin-wght-normal.woff2?url";
 import { AUTHOR, TWITTER_HANDLE } from "../consts";
 
 interface Props {
@@ -58,6 +59,13 @@ const {
   crossorigin
   href={sourceSans3Url}
 />
+<link
+  rel="preload"
+  as="font"
+  type="font/woff2"
+  crossorigin
+  href={cascadiaCodeUrl}
+/>
 
 <!-- Canonical URL & sitemap -->
 <link rel="canonical" href={canonicalURL} />
@@ -69,10 +77,11 @@ const {
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={ogType} />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={`${title}`} />
+<meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
 <meta property="og:site_name" content={AUTHOR} />
+<meta property="og:locale" content="en_US" />
 {
   ogType === "article" && pubDate && (
     <>
@@ -83,9 +92,9 @@ const {
 }
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={`${title}`} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
-<meta property="twitter:creator" content={TWITTER_HANDLE} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:creator" content={TWITTER_HANDLE} />
