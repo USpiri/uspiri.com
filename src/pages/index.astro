@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { AUTHOR, EMPLOYER } from "../consts";
 import { WORK } from "../data/work";
 import { Image } from "astro:assets";
+import mePhoto from "../assets/me.webp";
 
 const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -150,7 +151,7 @@ function formatDate(date: Date) {
       style={`animation-delay: ${aboutHeaderDelay + 40}ms`}
     >
       <div class="about-photo">
-        <Image src="/me.webp" alt={AUTHOR} width={1217} height={913} />
+        <Image src={mePhoto} alt={AUTHOR} />
       </div>
       <div class="about-text">
         <p>
