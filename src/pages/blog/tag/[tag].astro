@@ -9,6 +9,7 @@ export async function getStaticPaths() {
   return tags.map((tag) => ({
     params: { tag: encodeURIComponent(tag) },
     props: {
+      tag,
       posts: allPosts
         .filter((p) => p.data.tags.includes(tag))
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
@@ -16,8 +17,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { tag, posts } = Astro.props;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -30,10 +30,7 @@ function formatDate(date: Date) {
 const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
 ---
 
-<BaseLayout
-  title={`${tag} — ${AUTHOR}`}
-  description={`Posts tagged "${tag}".`}
->
+<BaseLayout title={`${tag} — ${AUTHOR}`} description={`Posts tagged "${tag}".`}>
   <nav class="breadcrumb">
     <a href="/">{AUTHOR}</a>
     <span aria-hidden="true">·</span>
