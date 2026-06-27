@@ -3,12 +3,12 @@
 import "../styles/global.css";
 
 // Fonts
-import "@fontsource/cormorant-garamond/300-italic.css";
 import "@fontsource/cormorant-garamond/400-italic.css";
 import "@fontsource/cormorant-garamond/500-italic.css";
 import "@fontsource-variable/cascadia-code/wght.css";
 import "@fontsource-variable/source-sans-3/wght-italic.css";
 import cormorantGaramondUrl from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-italic.woff2?url";
+import sourceSans3Url from "@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-italic.woff2?url";
 import { AUTHOR, TWITTER_HANDLE } from "../consts";
 
 interface Props {
@@ -29,12 +29,35 @@ const {
 } = Astro.props;
 ---
 
-<link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href={cormorantGaramondUrl} />
 <!-- Global Metadata -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta
+  name="theme-color"
+  content="#f7f5f0"
+  media="(prefers-color-scheme: light)"
+/>
+<meta
+  name="theme-color"
+  content="#111110"
+  media="(prefers-color-scheme: dark)"
+/>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link
+  rel="preload"
+  as="font"
+  type="font/woff2"
+  crossorigin
+  href={cormorantGaramondUrl}
+/>
+<link
+  rel="preload"
+  as="font"
+  type="font/woff2"
+  crossorigin
+  href={sourceSans3Url}
+/>
 
 <!-- Canonical URL & sitemap -->
 <link rel="canonical" href={canonicalURL} />
@@ -49,6 +72,7 @@ const {
 <meta property="og:title" content={`${title}`} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:site_name" content={AUTHOR} />
 {
   ogType === "article" && pubDate && (
     <>
