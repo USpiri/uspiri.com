@@ -8,6 +8,7 @@ import "@fontsource/cormorant-garamond/400-italic.css";
 import "@fontsource/cormorant-garamond/500-italic.css";
 import "@fontsource-variable/cascadia-code/wght.css";
 import "@fontsource-variable/source-sans-3/wght-italic.css";
+import cormorantGaramondUrl from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-italic.woff2?url";
 import { AUTHOR, TWITTER_HANDLE } from "../consts";
 
 interface Props {
@@ -29,10 +30,10 @@ const {
 ---
 
 <link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href={cormorantGaramondUrl} />
 <!-- Global Metadata -->
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width" />
-<meta name="generator" content={Astro.generator} />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
 <!-- Canonical URL & sitemap -->
