@@ -143,6 +143,10 @@ main {
   flex: 1;
 }
 
+section:first-of-type {
+  margin-top: 4rem;
+}
+
 a {
   color: inherit;
   text-decoration: underline;
