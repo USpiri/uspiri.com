@@ -273,6 +273,36 @@ a:hover {
   border-radius: 4px;
 }
 
+.code-wrapper {
+  position: relative;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2em 0.65em;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  line-height: 1.5;
+  z-index: 1;
+}
+
+.code-wrapper:hover .copy-code-btn {
+  opacity: 1;
+}
+
+.copy-code-btn:hover {
+  color: var(--fg);
+}
+
 /* ── Syntax highlighting ───────────────────────────────── */
 /* Light colors come from Shiki inline styles — no CSS needed.
    Dark colors need CSS because Astro doesn't auto-generate @media rules. */
