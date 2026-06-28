@@ -82,6 +82,23 @@ const { Content } = await render(project);
       }
 
       {
+        project.data.links && project.data.links.length > 0 && (
+          <div class="project-links">
+            {project.data.links.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-link"
+              >
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )
+      }
+
+      {
         project.data.blogPost && (
           <div class="blog-post-link">
             <a href={project.data.blogPost} class="project-link">

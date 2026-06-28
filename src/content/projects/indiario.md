@@ -5,6 +5,11 @@ description: "Live news publishing platform built for a real editorial team — 
 image: "../../assets/projects/indiario.png"
 stack: ["Next.js", "Payload CMS", "React Native", "Expo"]
 url: "https://indiario.com/"
+links:
+  - label: "Play Store"
+    url: "https://play.google.com/store/apps/details?id=com.indiario.app"
+  - label: "App Store"
+    url: "https://apps.apple.com/us/app/indiario/id6746705730"
 ---
 
 Indiario is a full-stack news platform built for a live editorial team. It covers the complete publishing lifecycle: journalists write and manage content through a Payload CMS backend, readers access the public site, and subscribers receive breaking news through a React Native mobile app with push notifications. It's a full stack distributed system I've worked on as part of the team at [Honra.io](https://honra.io).
