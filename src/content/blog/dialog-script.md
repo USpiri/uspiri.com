@@ -1,12 +1,9 @@
 ---
 title: "Manejo de <dialog /> nativos"
 description: "Descubre cómo simplificar la creación y gestión de <dialog /> nativos HTML con este pequeño script. Sin necesidad de librerías externas."
-date: 2023-10-11
-tags:
-  - typescript
+pubDate: 2023-10-11
+tags: ["typescript", "web-development"]
 ---
-
-# Manejo de \<dialog \/\> nativos
 
 Las ventanas emergentes, comúnmente conocidas como "dialogs", son parte del desarrollo habitual de interfaces desde hace años. Una ventana de diálogo es un tipo especial de cuadro emergente en una página web. Estos _dialogs_ siempre fueron difíciles de crear o implican la instalación de librerías Javascript que conllevan mayor complejidad y aumentan el tamaño general de la aplicación en desarrollo.
 

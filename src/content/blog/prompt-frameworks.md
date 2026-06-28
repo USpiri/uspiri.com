@@ -1,11 +1,9 @@
 ---
 title: Prompt Frameworks
 description: Los Prompt Frameworks son estructuras que nos permiten crear prompts más efectivos al interactuar con modelos de inteligencia artificial como GPT.
-tags: ["AI"]
+tags: ["ai", "prompt-engineering"]
 pubDate: 2024-08-09
 ---
-
-# Prompt Frameworks
 
 Hay muchas formas de escribir un prompt, ¡Infinitas!
 

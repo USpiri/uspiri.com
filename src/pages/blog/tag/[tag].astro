@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { AUTHOR } from "../../../consts";
+import { AUTHOR, SITE_URL } from "../../../consts";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog", ({ data }) => !data.draft);
@@ -9,6 +9,7 @@ export async function getStaticPaths() {
   return tags.map((tag) => ({
     params: { tag: encodeURIComponent(tag) },
     props: {
+      tag,
       posts: allPosts
         .filter((p) => p.data.tags.includes(tag))
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
@@ -16,8 +17,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { tag, posts } = Astro.props;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -32,9 +32,22 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
 
 <BaseLayout
   title={`${tag} — ${AUTHOR}`}
-  description={`Posts tagged "${tag}".`}
+  description={`All posts about ${tag} by ${AUTHOR} — web development, frontend engineering, and software.`}
 >
-  <nav class="breadcrumb">
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${tag} — ${AUTHOR}`,
+      url: `${SITE_URL}/blog/tag/${encodeURIComponent(tag)}`,
+      description: `All posts about ${tag} by ${AUTHOR}`,
+      author: { "@type": "Person", name: AUTHOR, url: SITE_URL },
+    })}
+  />
+  <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">{AUTHOR}</a>
     <span aria-hidden="true">·</span>
     <a href="/blog">Writing</a>
@@ -43,6 +56,7 @@ const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))];
   </nav>
 
   <section class="posts">
+    <h1 class="sr-only">{tag}</h1>
     {
       years.map((year) => (
         <div class="year-group">

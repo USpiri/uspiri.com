@@ -1,11 +1,9 @@
 ---
 title: ¿Porqué esperar dos veces al usar fetch?
 description: Es lógico tener que esperar la respuesta de un servidor, pero ¿Porqué tenemos que volver a esperar nuevamente que la respuesta se transforme en JSON?
-tags: ["javascript"]
+tags: ["typescript", "web-development"]
 pubDate: 2024-09-23
 ---
-
-# ¿Por qué debemos esperar dos veces al usar `fetch`?
 
 Si alguna vez has trabajado con peticiones `fetch` en JavaScript, seguramente te topaste con un código como este:
 

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://uspiri.com/sitemap-index.xml

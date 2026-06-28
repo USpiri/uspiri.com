@@ -1,12 +1,24 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { AUTHOR, EMPLOYER } from "../consts";
+import { AUTHOR, EMPLOYER, SITE_URL, SOCIAL } from "../consts";
+import { WORK } from "../data/work";
+import { Image } from "astro:assets";
+import mePhoto from "../assets/me.webp";
 
 const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const posts = allPosts.slice(0, 10);
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const projectsHeaderDelay = 180 + WORK.length * 20 + 20;
+const postsHeaderDelay = 180 + WORK.length * 20 + projects.length * 20 + 60;
+const aboutHeaderDelay =
+  postsHeaderDelay + Math.min(posts.length, 10) * 20 + 60;
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -17,7 +29,28 @@ function formatDate(date: Date) {
 }
 ---
 
-<BaseLayout title={AUTHOR}>
+<BaseLayout title={`${AUTHOR} — Fullstack Developer`}>
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: AUTHOR,
+        url: SITE_URL,
+        sameAs: [SOCIAL.home, SOCIAL.github, SOCIAL.twitter, SOCIAL.linkedin],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: AUTHOR,
+        url: SITE_URL,
+        author: { "@type": "Person", name: AUTHOR },
+      },
+    ])}
+  />
   <section class="intro">
     <h1>{AUTHOR}</h1>
     <p>
@@ -28,14 +61,85 @@ function formatDate(date: Date) {
     </p>
   </section>
 
+  <section class="work">
+    <header class="work-header">
+      <h2 class="label">Experience</h2>
+    </header>
+    <ol class="work-list">
+      {
+        WORK.map((entry, i) => (
+          <li class="work-item" style={`animation-delay: ${180 + i * 20}ms`}>
+            <div class="work-meta">
+              <span class="work-role">
+                {entry.role} ·{" "}
+                {entry.url ? (
+                  <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                    {entry.company}
+                    <span class="ext-arrow">↗</span>
+                  </a>
+                ) : (
+                  entry.company
+                )}
+              </span>
+              <span class="work-period">{entry.period}</span>
+            </div>
+            <p class="work-desc">{entry.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="projects">
+    <header
+      class="projects-header"
+      style={`animation-delay: ${projectsHeaderDelay}ms`}
+    >
+      <h2 class="label">Projects</h2>
+    </header>
+    <ol class="project-list">
+      {
+        projects.map((project, i) => (
+          <li class="project-item" style={`animation-delay: ${180 + i * 20}ms`}>
+            <div class="project-meta">
+              <a href={`/projects/${project.id}`} class="project-name">
+                {project.data.name}
+                <span class="ext-arrow">↗</span>
+              </a>
+              {project.data.url && (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-live"
+                >
+                  Live ↗
+                </a>
+              )}
+            </div>
+            <p class="project-desc">{project.data.description}</p>
+            <div class="project-stack">
+              {project.data.stack.map((tech) => (
+                <span class="stack-tag">{tech}</span>
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
   <section class="posts">
-    <header class="posts-header">
-      <span class="label">Writing</span>
-      {allPosts.length > 10 && <a href="/blog">All posts →</a>}
+    <header
+      class="posts-header"
+      style={`animation-delay: ${postsHeaderDelay}ms`}
+    >
+      <h2 class="label">Writing</h2>
+      <a href="/blog">All posts →</a>
     </header>
     <ol class="post-list">
       {
-        posts.slice(0, 10).map((post) => (
+        posts.map((post) => (
           <li class="post-item">
             <a
               href={`/blog/${post.id}`}
@@ -55,9 +159,48 @@ function formatDate(date: Date) {
       <span class="label">{posts.length}/{allPosts.length}</span>
     </p>
   </section>
+
+  <section class="about">
+    <header
+      class="about-header"
+      style={`animation-delay: ${aboutHeaderDelay}ms`}
+    >
+      <h2 class="label">About</h2>
+    </header>
+    <div
+      class="about-body"
+      style={`animation-delay: ${aboutHeaderDelay + 40}ms`}
+    >
+      <div class="about-photo">
+        <Image src={mePhoto} alt={AUTHOR} />
+      </div>
+      <div class="about-text">
+        <p>
+          Raised in Argentina. I got into programming trying to build a POS
+          system for my grandfather. Nothing available fit, so I started
+          learning how to make it myself. He closed the shop before it was
+          finished, but by then software had already become one of my tools.
+        </p>
+        <p>
+          Today I work at Honra.io — mobile apps, backends, frontend,
+          migrations. Lately a lot of it has shifted toward AI and agents, and
+          I'm excited about where that's heading.
+        </p>
+        <p>
+          I like understanding how things work. Sometimes that means software,
+          sometimes motorcycle electronics, and sometimes a sidebar that should
+          have been simple but ended up being rebuilt from scratch.
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
+  section {
+    margin-bottom: 1rem;
+  }
+
   .intro {
     padding-top: clamp(5rem, 10vw, 6rem);
     padding-bottom: clamp(2.5rem, 7vw, 4rem);
@@ -103,7 +246,7 @@ function formatDate(date: Date) {
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
-    animation: fade-up 400ms ease-out 200ms both;
+    animation: fade-up 400ms ease-out both;
   }
 
   .post-count {
@@ -151,34 +294,34 @@ function formatDate(date: Date) {
   }
 
   .post-item:nth-child(1) {
-    animation-delay: 260ms;
+    animation-delay: 120ms;
   }
   .post-item:nth-child(2) {
-    animation-delay: 295ms;
+    animation-delay: 140ms;
   }
   .post-item:nth-child(3) {
-    animation-delay: 330ms;
+    animation-delay: 160ms;
   }
   .post-item:nth-child(4) {
-    animation-delay: 365ms;
+    animation-delay: 180ms;
   }
   .post-item:nth-child(5) {
-    animation-delay: 400ms;
+    animation-delay: 200ms;
   }
   .post-item:nth-child(6) {
-    animation-delay: 435ms;
+    animation-delay: 220ms;
   }
   .post-item:nth-child(7) {
-    animation-delay: 470ms;
+    animation-delay: 240ms;
   }
   .post-item:nth-child(8) {
-    animation-delay: 505ms;
+    animation-delay: 260ms;
   }
   .post-item:nth-child(9) {
-    animation-delay: 540ms;
+    animation-delay: 280ms;
   }
   .post-item:nth-child(10) {
-    animation-delay: 575ms;
+    animation-delay: 300ms;
   }
 
   .post-title {
@@ -201,5 +344,229 @@ function formatDate(date: Date) {
     color: var(--muted);
     white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .work {
+    padding-bottom: 2rem;
+  }
+
+  .work-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out 180ms both;
+  }
+
+  .work-list {
+    list-style: none;
+  }
+
+  .work-item {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 300ms ease-out both;
+  }
+
+  .work-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .work-role {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+
+  .work-role a {
+    color: var(--fg);
+    font-weight: 400;
+    text-decoration-color: var(--border);
+  }
+
+  .work-role a:hover {
+    text-decoration-color: var(--fg);
+  }
+
+  .work-period {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .work-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .projects {
+    padding-bottom: 2rem;
+  }
+
+  .projects-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out both;
+  }
+
+  .project-list {
+    list-style: none;
+  }
+
+  .project-item {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 300ms ease-out both;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .project-name {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+
+  a.project-name {
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a.project-name:hover {
+    color: var(--muted);
+  }
+
+  .project-live {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+  }
+
+  .project-live:hover {
+    color: var(--fg);
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .stack-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .stack-tag + .stack-tag::before {
+    content: "·";
+    margin: 0 0.4rem;
+    color: var(--border);
+  }
+
+  .ext-arrow {
+    font-size: 0.7em;
+  }
+
+  .about {
+    padding-bottom: 2rem;
+  }
+
+  .about-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: fade-up 400ms ease-out both;
+  }
+
+  .about-body {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 2rem;
+    align-items: start;
+    animation: fade-up 400ms ease-out both;
+  }
+
+  .about-photo {
+    width: 150px;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    background-color: var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .about-text p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 512px) {
+    section {
+      margin-bottom: 2rem;
+    }
+
+    .about-body {
+      grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+      width: 200px;
+    }
   }
 </style>

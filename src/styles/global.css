@@ -7,9 +7,10 @@
 :root {
   --bg: #f7f5f0;
   --fg: #1a1a18;
-  --muted: #9a9690;
+  --muted: #757169;
   --border: #e2dfd8;
   --code-bg: #e5e2db;
+  --code-block-bg: #f1ede7;
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3 Variable', 'Source Sans 3', sans-serif;
@@ -23,16 +24,17 @@
   :root {
     --bg: #111110;
     --fg: #dedad3;
-    --muted: #68635e;
+    --muted: #908b84;
     --border: #242220;
     --code-bg: #1e1c1a;
+    --code-block-bg: #1e1c1a;
   }
 }
 
 html[data-theme="light"] {
   --bg: #f7f5f0;
   --fg: #1a1a18;
-  --muted: #9a9690;
+  --muted: #746f69;
   --border: #e2dfd8;
   --code-bg: #f1ede7;
   --code-block-bg: #f1ede7;
@@ -41,10 +43,22 @@ html[data-theme="light"] {
 html[data-theme="dark"] {
   --bg: #111110;
   --fg: #dedad3;
-  --muted: #68635e;
+  --muted: #817b75;
   --border: #242220;
   --code-bg: #1e1c1a;
   --code-block-bg: #1e1c1a;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* ── Theme toggle ──────────────────────────────────────── */
@@ -57,8 +71,8 @@ html[data-theme="dark"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
   background: none;
   border: none;
   border-radius: 50%;
@@ -110,7 +124,7 @@ html {
   background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.6vw, 18px);
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -129,6 +143,10 @@ main {
   flex: 1;
 }
 
+section:first-of-type {
+  margin-top: 4rem;
+}
+
 a {
   color: inherit;
   text-decoration: underline;
@@ -139,6 +157,31 @@ a {
 
 a:hover {
   text-decoration-color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+  border-radius: 0.5px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  z-index: 100;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
 }
 
 /* ── Prose (blog post body) ──────────────────────────── */
@@ -234,6 +277,36 @@ a:hover {
   border-radius: 4px;
 }
 
+.code-wrapper {
+  position: relative;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2em 0.65em;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  line-height: 1.5;
+  z-index: 1;
+}
+
+.code-wrapper:hover .copy-code-btn {
+  opacity: 1;
+}
+
+.copy-code-btn:hover {
+  color: var(--fg);
+}
+
 /* ── Syntax highlighting ───────────────────────────────── */
 /* Light colors come from Shiki inline styles — no CSS needed.
    Dark colors need CSS because Astro doesn't auto-generate @media rules. */
@@ -245,6 +318,17 @@ html[data-theme="dark"] .astro-code span {
   font-style: var(--shiki-dark-font-style) !important;
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
 
 /* ── Native view transitions ──────────────────────────── */
@@ -265,7 +349,7 @@ html[data-theme="dark"] .astro-code span {
   from {
     opacity: 0;
     transform: translateY(10px);
-    filter: blur(3px);
+    filter: blur(1px);
   }
   to {
     opacity: 1;

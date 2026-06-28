@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { AUTHOR } from "../../consts";
+import { AUTHOR, SITE_URL } from "../../consts";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -26,10 +26,33 @@ function formatDate(date: Date) {
 <BaseLayout
   title={`${post.data.title} — ${AUTHOR}`}
   description={post.data.description}
+  image={`/og/${post.id}.png`}
+  ogType="article"
+  pubDate={post.data.pubDate}
+  tags={post.data.tags}
 >
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.data.title,
+      image: `${SITE_URL}/og/${post.id}.png`,
+      datePublished: post.data.pubDate.toISOString(),
+      dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+      author: {
+        "@type": "Person",
+        name: AUTHOR,
+        url: SITE_URL,
+      },
+      url: `${SITE_URL}/blog/${post.id}/`,
+    })}
+  />
   <article>
-    <nav class="breadcrumb">
-      <a href="/blog">← Writing</a>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/blog"><span aria-hidden="true">←</span> Writing</a>
     </nav>
 
     <header class="post-header">
@@ -211,4 +234,28 @@ function formatDate(date: Date) {
       label.textContent = "Share";
     }, 1500);
   }
+</script>
+
+<script>
+  document.querySelectorAll<HTMLPreElement>(".prose pre").forEach((pre) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "code-wrapper";
+    pre.parentNode!.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const btn = document.createElement("button");
+    btn.className = "copy-code-btn";
+    btn.textContent = "Copy";
+    btn.setAttribute("aria-label", "Copy code to clipboard");
+    wrapper.appendChild(btn);
+
+    btn.addEventListener("click", async () => {
+      const code = pre.querySelector("code");
+      await navigator.clipboard.writeText(code?.innerText ?? pre.innerText);
+      btn.textContent = "Copied!";
+      setTimeout(() => {
+        btn.textContent = "Copy";
+      }, 1500);
+    });
+  });
 </script>
